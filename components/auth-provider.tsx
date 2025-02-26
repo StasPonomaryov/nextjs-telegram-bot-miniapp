@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { GoogleAuthProvider, signInWithPopup, User } from "firebase/auth";
 import Cookies from 'js-cookie';
 import { auth } from "@/lib/firebase";
+import { useRouter } from "next/navigation";
 
 type AuthContextType = {
   currentUser: User | null;
@@ -29,6 +30,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (!auth) return;
@@ -46,8 +48,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setAuthToken(token);
         setIsAdmin(tokenValues.claims.role === "admin");
       }
+      router.refresh();
     });
-  }, []);
+  }, [router]);
 
   function loginGoogle(): Promise<void> {
     return new Promise((resolve, reject) => {
