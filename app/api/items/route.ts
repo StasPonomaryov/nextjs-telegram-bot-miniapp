@@ -2,17 +2,7 @@ import { auth, firestore } from "@/lib/firebase-server";
 import { DecodedIdToken } from "firebase-admin/auth";
 import { NextResponse } from "next/server";
 import defaultItems from "@/config/items.json";
-
-export enum ItemAccess {
-  PUBLIC = "PUBLIC",
-  ADMIN = "ADMIN",
-}
-
-export type Item = {
-  id: string;
-  name: string;
-  access: ItemAccess;
-};
+import { Item, ItemAccess } from "@/types";
 
 export async function GET(request: Request) {
   try {
@@ -53,7 +43,7 @@ export async function GET(request: Request) {
         if (docRef) batch.set(docRef, item);
       });
       batch.commit();
-      
+
       return NextResponse.json(defaultItems);
     }
 

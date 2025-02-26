@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
-import { Item, ItemAccess } from "./api/items/route";
-import { cn } from "@/lib/utils";
+import { Item } from "@/types";
+import ItemElement from "@/components/item";
 
 export default async function Home() {
   const coockieStore = await cookies();
@@ -11,6 +11,7 @@ export default async function Home() {
     headers: {
       "Authorization": `Bearer ${authToken}`,
     },
+    cache: 'no-store'
   });
 
   if (response.ok) {
@@ -24,14 +25,7 @@ export default async function Home() {
       <h2 className="text-xl my-2">Home</h2>
       {items?.length ? (
         items.map((item) => (
-          <div key={item.id} className="flex gap-2">
-            <span>{item.name}</span>
-            <span className={cn("text-sm text-green-500", {
-              "text-red-500": item.access === ItemAccess.ADMIN,
-            })}>
-              {item.access}
-            </span>
-          </div>
+          <ItemElement key={item.id} item={item} />
         ))) : (
         <div className="text-red-500">No items</div>
       )}
