@@ -1,18 +1,15 @@
 "use client";
 
-import { auth } from "@/lib/firebase";
-import { GoogleAuthProvider, signInWithPopup, User } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
+import { GoogleAuthProvider, signInWithPopup, User } from "firebase/auth";
 import Cookies from 'js-cookie';
+import { auth } from "@/lib/firebase";
 
 type AuthContextType = {
   currentUser: User | null;
   isAdmin: boolean;
   loginGoogle: () => Promise<void>;
   logOut: () => Promise<void>;
-  // signIn: (email: string, password: string) => Promise<void>;
-  // signUp: (email: string, password: string) => Promise<void>;
-  // signOut: () => Promise<void>;
 };
 
 export function getAuthToken(): string | undefined {

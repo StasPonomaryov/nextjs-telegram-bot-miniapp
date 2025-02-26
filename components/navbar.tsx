@@ -20,26 +20,32 @@ function Navbar() {
   }
 
   return (
-    <div className="flex justify-between items-center gap-4">
-      {auth?.currentUser && auth.isAdmin && (
-        <div className="text-lime-700">Admin</div>
-      )}
-      {!auth?.currentUser && (
-        <Button onClick={loginGoogle}>Sign in with Google</Button>
-      )}
-      {auth?.currentUser && (
-        <>
-          <p>{auth?.currentUser?.displayName}</p>
-          <Button variant="destructive" onClick={logout}>Sign out</Button>
-        </>
-      )}
-      {isAdminPage && (
-        <Link href="/">Home</Link>
-      )}
-      {!isAdminPage && (
-        <Link href="/admin">Admin</Link>
-      )}
-    </div>
+    <>
+      <div className="flex justify-between items-center gap-4 my-2">
+        {auth?.currentUser && auth.isAdmin && (
+          <div className="text-lime-700">Admin</div>
+        )}
+        {!auth?.currentUser && (
+          <Button onClick={loginGoogle}>Sign in with Google</Button>
+        )}
+        {auth?.currentUser && (
+          <>
+            <p>{auth?.currentUser?.displayName}</p>
+            <Button variant="destructive" onClick={logout}>Sign out</Button>
+          </>
+        )}
+
+      </div>
+      <div className="flex items-center gap-4 my-2">
+        {isAdminPage && (
+          <Link href="/">Home</Link>
+        )}
+        {!isAdminPage && auth?.currentUser && auth.isAdmin ? (
+          <Link href="/admin">Dasboard</Link>
+        ): null}
+        <Link href="/about">About</Link>
+      </div>
+    </>
   )
 }
 

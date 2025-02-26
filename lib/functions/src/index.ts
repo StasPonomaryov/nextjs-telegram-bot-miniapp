@@ -3,11 +3,14 @@ import * as admin from "firebase-admin";
 import { logger } from 'firebase-functions/v1';
 import { getAuth } from 'firebase-admin/auth';
 import { debug } from 'firebase-functions/logger';
+import defaultSettings from '../../../config/config.json';
 
 admin.initializeApp();
 
 const db = admin.firestore();
-
+/**
+ * This function is triggered when a new user is created in Firebase Authentication.
+ */
 export const saveUserEmailOnCreation = functions
   .auth.user()
   .onCreate(async (event) => {
@@ -20,7 +23,27 @@ export const saveUserEmailOnCreation = functions
         return;
       }
 
-      if (email === 'ponomaryov.stas@gmail.com') {
+      let adminsEmails = [];
+
+      try {
+        const adminsSnapshot = await db.collection('config').doc('settings').get();
+
+        if (!adminsSnapshot.exists) {
+          logger.warn('No admins found in Firestore.');
+          return;
+        }
+
+        adminsEmails = adminsSnapshot.data()?.admins || [];
+
+        if (!adminsEmails.length) {
+          await db.collection('config').doc('settings').set(defaultSettings);
+        }
+      } catch (error) {
+        logger.error('Failed to fetch admins from Firestore:', error);
+        throw error;
+      }
+
+      if (adminsEmails.includes(email)) {
         const customClaim = { role: 'admin' };
 
         try {
