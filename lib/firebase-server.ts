@@ -8,7 +8,7 @@ import { Auth, getAuth } from 'firebase-admin/auth';
 const currentApps = getApps();
 
 let firestore: Firestore
-let db: Database;
+let database: Database;
 let auth: Auth;
 
 if (currentApps.length <= 0) {
@@ -24,14 +24,14 @@ if (currentApps.length <= 0) {
     credential: cert(serviceAccount as ServiceAccount),
     databaseURL: 'https://telegram-bot-boilerplate-default-rtdb.europe-west1.firebasedatabase.app',
   });
-  db = getDatabase(app);
+  database = getDatabase(app);
   firestore = getFirestore(app);
   auth = getAuth(app);
 } else {
   const app = currentApps[0];
-  db = getDatabase(app);
+  database = getDatabase(app);
   firestore = getFirestore(app);
   auth = getAuth(app);
 }
 
-export { db, firestore, auth };
+export { database, firestore, auth };
