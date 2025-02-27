@@ -1,0 +1,15 @@
+{
+  "buttons": {
+    "webapp": "Start web app"
+  },
+  "hello": "Hello!",
+  "webapp": {
+    "received_data": "Received data:\n\n{{data}}"
+  },
+  "welcome": {
+    "hello": "Get started with our web app!"
+  },
+  "message": {
+    "not_found": "Sorry, couldn't understand you."
+  }
+}
