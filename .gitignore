@@ -44,3 +44,5 @@ next-env.d.ts
 lib/service-account.json
 package-lock.json
 pnpm-lock.yaml
+
+lib/bot/local-bot.ts
