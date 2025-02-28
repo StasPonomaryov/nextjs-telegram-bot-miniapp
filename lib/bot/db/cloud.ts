@@ -1,4 +1,4 @@
-import { BotSettings } from "@/types/bot";
+import { BotSettings } from "../../../types/bot";
 
 class CloudDb {
   private db: FirebaseFirestore.Firestore;

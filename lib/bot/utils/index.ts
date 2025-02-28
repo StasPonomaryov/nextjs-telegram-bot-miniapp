@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import * as enFile from '../locale/en/translation.json';
 import * as ukFile from '../locale/uk/translation.json';
-import { CustomContext } from '@/types/bot';
+import { CustomContext } from '../../../types/bot';
 
 const resources = {
   en: {

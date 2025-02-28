@@ -1,4 +1,4 @@
-import { CustomContext } from "@/types/bot";
+import { CustomContext } from "../../../types/bot";
 import { Scenes, Telegraf } from "telegraf";
 import { clearSession } from "../utils";
 

@@ -1,5 +1,5 @@
 import { Scenes } from 'telegraf';
-import { CustomContext } from '@/types/bot';
+import { CustomContext } from '../../../../types/bot';
 import commonInteractions from "../../base/commonInteractions";
 import SceneEnter from './presenters';
 
