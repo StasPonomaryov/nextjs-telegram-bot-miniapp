@@ -10,7 +10,8 @@ export async function GET(request: Request) {
       return new NextResponse("Firestore is not initialized", { status: 500 });
     }
 
-    const authToken = request.headers.get("Authorization")?.split('Bearer ')[1] || null;
+    const authHeader = request.headers.get("Authorization") || '';
+    const authToken = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : '';
     let user: DecodedIdToken | null = null;
 
     if (auth && authToken) {
@@ -29,7 +30,7 @@ export async function GET(request: Request) {
 
     const response = await fetchItems;
 
-    if (!response || response.empty) {
+    if (!response) {
       return new NextResponse("Failed to fetch items", { status: 500 });
     }
 
