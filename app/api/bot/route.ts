@@ -11,7 +11,7 @@ const keys = {
   },
 };
 
-let config = {
+const config = {
   keys: {
     ...localSettings.settings,
     ...keys,
@@ -22,38 +22,32 @@ const bot = Bot(config);
 let isBotRunning = false; 
 
 export async function GET() {
-  if (!isBotRunning) {
-    try {
-      await bot.launch(); 
-      isBotRunning = true; 
-      console.log("Bot started on long polling");
-      return NextResponse.json({ status: "Bot is running" });
-    } catch (error) {
-      console.error("Error starting bot:", error);
-      return NextResponse.json({ error: "Bot error" }, { status: 500 });
-    }
-  } else {
-    console.log("Bot is already started.");
-    return NextResponse.json({ status: "Bot is already running" });
+  if (!isBotRunning && config.keys.bot?.token) {
+    await bot.launch();
+    isBotRunning = true;
+    console.log("Bot started on long polling");
+    return NextResponse.json({ status: "Bot is running" });
   }
+
+  console.log("Bot is already started.");
+
+  return NextResponse.json({ status: "Bot is already running" });
 }
 
 export async function POST(request: Request) {
-  const source = new CloudDb(firestore);
-
   try {
-    const settings = await source.getSettings();
+    const source = new CloudDb(firestore);
+    const [settings, body] = await Promise.all([
+      source.getSettings(),
+      request.json(),
+    ]);
 
-    config = {
-      keys: {
-        ...(settings ? settings : localSettings.settings as BotSettings),
-        ...keys,
-      },
+    config.keys = {
+      ...(settings || (localSettings.settings as BotSettings)),
+      ...keys,
     };
 
     console.log("Updated settings:", config);
-
-    const body = await request.json();
     await bot.handleUpdate(body);
 
     return NextResponse.json({ status: "ok" });

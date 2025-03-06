@@ -14,7 +14,9 @@ class CloudDb {
   }
 
   async getSettings() {
-    const settingsCollection = this.db.collection(this.configCollection).doc(this.settingsDocument);
+    const settingsCollection = this.db
+      .collection(this.configCollection)
+      .doc(this.settingsDocument);
     const settingsSnapshot = await settingsCollection.get();
 
     if (!settingsSnapshot.exists) {

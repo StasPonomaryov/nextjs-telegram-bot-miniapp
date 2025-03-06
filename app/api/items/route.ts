@@ -34,7 +34,7 @@ export async function GET(request: Request) {
       return new NextResponse("Failed to fetch items", { status: 500 });
     }
 
-    const items: Item[] = await response.docs.map((doc) => doc.data() as Item);
+    const items: Item[] = response.docs.map((doc) => doc.data() as Item);
 
     if (items.length === 0) {
       const batch = firestore.batch();
@@ -43,7 +43,7 @@ export async function GET(request: Request) {
         const docRef = firestore?.collection("items").doc(item.id);
         if (docRef) batch.set(docRef, item);
       });
-      batch.commit();
+      await batch.commit();
 
       return NextResponse.json(defaultItems);
     }
