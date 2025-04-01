@@ -10,7 +10,6 @@ function Navbar() {
   const pathName = usePathname();
   const auth = useAuth();
 
-  // const isAdminPage = pathName?.includes("/admin");
   const isHomePage = pathName === "/";
 
   const loginGoogle = async () => {
@@ -36,7 +35,6 @@ function Navbar() {
             <Button variant="destructive" onClick={logout}>Sign out</Button>
           </>
         )}
-
       </div>
       <Menubar>
         <MenubarMenu>
