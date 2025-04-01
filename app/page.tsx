@@ -3,9 +3,10 @@ import Script from 'next/script';
 import { Item } from "@/types";
 import ItemElement from "@/components/item";
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams?: { [key: string]: unknown } }) {
   const coockieStore = await cookies();
   const authToken = coockieStore.get("firebaseIdToken")?.value || '';
+  const source = (await searchParams)?.source || '';
   let items: Item[] = [];
   const response = await fetch(`${process.env.API_URL}/api/items`, {
     method: "GET",
@@ -20,6 +21,7 @@ export default async function Home() {
 
     if (itemsJson?.length > 0) items = itemsJson;
   }
+  console.log('Telegram Id', source);  
 
   return (
     <div className="page home">
