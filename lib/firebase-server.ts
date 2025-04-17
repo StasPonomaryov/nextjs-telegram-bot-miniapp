@@ -4,6 +4,8 @@ import { cert, getApps, ServiceAccount } from "firebase-admin/app";
 import { Firestore, getFirestore } from 'firebase-admin/firestore';
 import { getDatabase, Database } from "firebase-admin/database";
 import { Auth, getAuth } from 'firebase-admin/auth';
+import dotenv from 'dotenv'; 
+dotenv.config();
 
 const currentApps = getApps();
 
@@ -22,7 +24,7 @@ if (currentApps.length <= 0) {
   }
   const app = admin.initializeApp({
     credential: cert(serviceAccount as ServiceAccount),
-    databaseURL: 'https://telegram-bot-boilerplate-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
   });
   database = getDatabase(app);
   firestore = getFirestore(app);
