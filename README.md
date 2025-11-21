@@ -12,7 +12,7 @@
 2) Create Firestore and Realtime databases
 3) Enable Firebase Auth
 4) Create Application. Firebase -> Project settings -> Your apps -> Add app -> Web app
-5) Download service account file. Open Firebase -> Project settings -> Service accounts -> Generate new private key. Download file, rename it to service-account.json and replace the empty one in `lib` folder
+5) Download service account file. Open Firebase -> Project settings -> Service accounts -> Generate new private key. Download file, rename it to service-account.json and place it to `lib` folder
 6) Create 'config' collection with 'settings' document in Firestore. Document must have fields `admins` (with an array of strings for admin emails) and `default_language` (with a string for language, 'uk' or 'en' etc.)
 
 ## Setting variables

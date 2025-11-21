@@ -4,8 +4,14 @@ import { getFirestore, Firestore } from "firebase-admin/firestore";
 import { getDatabase, Database } from "firebase-admin/database";
 import { getAuth, Auth } from "firebase-admin/auth";
 import dotenv from "dotenv";
-import serviceAccount from "./service-account.json";
+
 dotenv.config();
+
+const serviceAccount = {
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  clientEmail: process.env.NEXT_FIREBASE_CLIENT_EMAIL,
+  privateKey: process.env.NEXT_FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+} as ServiceAccount;
 
 function validateServerEnv() {
   const required = ["NEXT_PUBLIC_FIREBASE_DATABASE_URL"];
